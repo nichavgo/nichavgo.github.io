@@ -26,27 +26,27 @@
 
             </div>
             <div class='offline' style='display: none;'>
-
+                <div class='setupForm'>
+                    <label for='playerName'>Nombre del jugador:</label>
+                    <input type='text' name='playerName' id='playerName' placeholder='Nombre'>
+                    <label for='playerNumber'>Número de jugadores:</label>
+                    <input type='number' name='playerNumber' id='playerNumber' min='2'>
+                    <label for='maxPoints'>Número máximo de puntos:</label>
+                    <input type='number' name='maxPoints' id='maxPoints' min='1'>
+                    <input type='submit' id='playButton' value='JUGAR'>
+                </div>
             </div>
         </div>
         <div class='game' style='display: none;'>
             <div class='table'>
-                <div class='tricas'>
-
-                </div>
-                <div class='escaleras'>
-
-                </div>
-                <div class='discard'>
-
-                </div>
+                <div class='tricas'></div>
+                <div class='escaleras'></div>
+                <div class='discard'></div>
             </div>
             <div class='info'>
 
             </div>
-            <div class='hand'>
-
-            </div>
+            <div class='hand'></div>
         </div>
     </body>
 </html>
