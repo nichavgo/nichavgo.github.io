@@ -6,16 +6,44 @@
         <meta charset='utf-8'>
         <meta name='author' content='Nicolás Chavarría'>
 
+        <link rel='preconnect' href='https://fonts.gstatic.com'>
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap'>
         <link rel='stylesheet' href='style.css'>
-        
-        <script src='test.js' async></script>
+
+        <script src='game.js' defer></script>
     </head>
     <body>
-        <div class='preGame'>
-            
-        </div>
-        <div class='game'>
+        <div class='setup' style='display: none;'>
+            <h1>Loba</h1>
+            <div class='selectOnOff'>
+                <button class='onlineButton'>Online</button>
+                <button class='offlineButton'>Offline</button>
+            </div>
+            <div class='online' style='display: none;'>
 
+            </div>
+            <div class='offline' style='display: none;'>
+
+            </div>
+        </div>
+        <div class='game' style='display: none;'>
+            <div class='table'>
+                <div class='tricas'>
+
+                </div>
+                <div class='escaleras'>
+
+                </div>
+                <div class='discard'>
+
+                </div>
+            </div>
+            <div class='info'>
+
+            </div>
+            <div class='hand'>
+
+            </div>
         </div>
     </body>
 </html>
