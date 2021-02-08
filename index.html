@@ -8,9 +8,12 @@
 
         <link rel='preconnect' href='https://fonts.gstatic.com'>
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap'>
-        <link rel='stylesheet' href='style.css'>
 
-        <script src='game.js' defer></script>
+        <script>
+            document.write("<link rel='stylesheet' href='style.css?v=" + Date.now() + "'>\n");
+
+            document.write("<script src='game.js?v=" + Date.now() + "' defer><\/script>\n");
+        </script>
     </head>
     <body>
         <div class='setup' style='display: none;'>
