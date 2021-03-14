@@ -11,15 +11,16 @@
 
         <script>
             document.write("<link rel='stylesheet' href='style.css?v=" + Date.now() + "'>\n");
-
-            document.write("<script src='game.js?v=" + Date.now() + "' defer><\/script>\n");
+            document.write("<script src='game.js?v=" + Date.now() + "' async><\/script>\n");
+            document.write("<script src='setup.js?v=" + Date.now() + "' defer><\/script>\n");
         </script>
     </head>
     <body>
         <div class='setup' style='display: none;'>
             <h1>Loba</h1>
             <div class='selectOnOff'>
-                <button class='onlineButton'>Online</button>
+                <button class='onlineHostButton'>Crear Partida</button>
+                <button class='onlineGuestButton'>Unirse a Partida</button>
                 <button class='offlineButton'>Offline</button>
             </div>
             <div class='online' style='display: none;'>
@@ -33,6 +34,7 @@
                     <input type='number' name='playerNumber' id='playerNumber' min='2'>
                     <label for='maxPoints'>Número máximo de puntos:</label>
                     <input type='number' name='maxPoints' id='maxPoints' min='1'>
+                    <div class='emptySpace'></div>
                     <input type='submit' id='playButton' value='JUGAR'>
                 </div>
             </div>
