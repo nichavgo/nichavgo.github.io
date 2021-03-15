@@ -6,13 +6,16 @@
         <meta charset='utf-8'>
         <meta name='author' content='Nicolás Chavarría'>
 
+        <meta name='viewport' content='width=device-width initial-scale=1.0'>
+
         <link rel='preconnect' href='https://fonts.gstatic.com'>
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap'>
 
         <script>
             document.write("<link rel='stylesheet' href='style.css?v=" + Date.now() + "'>\n");
-            document.write("<script src='game.js?v=" + Date.now() + "' async><\/script>\n");
-            document.write("<script src='setup.js?v=" + Date.now() + "' defer><\/script>\n");
+            document.write("<script src='scripts/game.js?v=" + Date.now() + "' async><\/script>\n");
+            document.write("<script src='scripts/render.js?v=" + Date.now() + "' async><\/script>\n");
+            document.write("<script src='scripts/setup.js?v=" + Date.now() + "' defer><\/script>\n");
         </script>
     </head>
     <body>

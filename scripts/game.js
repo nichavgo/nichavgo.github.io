@@ -105,14 +105,109 @@ class player{
     drawDeck(table){
         if(table.deck.length === 0){
             return false;
-        }
-		else{
+        } else{
+            // This function has not been implemented yet
 			this.captureLastAction('rb', table);
-			this.hand.push(table.deck.pop(0));
+			this.hand.push(table.deck.draw());
 			
 			return true; 
         }
     }
+    drawDiscard(table){
+        if(this.hand.length < 2) return false;
+
+        let possibleToDraw = false;
+        topLoop:
+        for(let i = 0; i < this.hand.length - 1; i++){
+            for(let j = i + 1; j < this.hand.length; j++){
+                let testCards = [this.hand[i], this.hand[j], table.discard[0]]
+                // These functions have not been implemented yet
+                if(isTriad(testCards) || isLadd(testCards)){
+                    possibleToDraw = true;
+                    break topLoop;
+                }
+            }
+        }
+        if(!possibleToDraw) return false;
+
+        this.captureLastAction('rd', table);
+        this.drewDiscard = true;
+        this.cardToPlay = table.discard[0];
+        this.hand.push(table.discard.shift());
+
+        return true;
+    }
+    playCards(info, table){
+        let cards = new Array;
+        for(const index of info) cards.push(this.hand[index]);
+
+        if(isTriad(cards)){
+            this.captureLastAction('jt', table);
+
+            table.triads.push(orderTriad(cards));
+            // Keep track of the triads you played this turn
+            this.triadsPlayed.push(table.triads.length - 1);
+        } else if(isLadd(cards)){
+            this.captureLastAction('je', table);
+
+            table.ladders.push(orderLadder(cards));
+            // Keep track of the ladders you played this turn
+            this.laddersPlayed.push(table.triads.length - 1);
+        } else return false;
+
+        let newHand = new Array;
+        for(let i = 0; i < this.hand.length; i++){
+            if(info.indexOf(i) === -1) newHand.push(this.hand[i]);
+        }
+        this.hand = newHand;
+
+        // Check if the card drawn from the discard pile has been played
+        if(cards.indexOf(this.cardToPlay) !== -1) this.drewDiscard = false;
+
+        this.playedCards[0] = true;
+
+        return true;
+    }
+    augmentTriad(info, table){
+        if(this.triadsPlayed.indexOf(info[1]) !== -1) return false;
+        
+        const index = table.triads[info[1]].indexOf(this.hand[info[0]]);
+        if(index !== -1){
+            this.captureLastAction('t', table);
+
+            table.discard.unshift(table.hand[info[0]]);
+            table.discard.push(table.triads[info[1]][index]);
+            // Remove the card from the triad
+            table.triads[info[1]] = table.triads[info[1]].slice(0, index).concat(table.triads[info[1]].slice(index + 1));
+            // Remove the card from the hand
+            this.hand = this.hand.slice(0, info[0]).concat(this.hand.slice(info[0] + 1));
+
+            return true;
+        } else return false;
+    }
+    augmentLadder(info, table){
+        let cards = new Array;
+        for(let i = 0; i < info.length - 1; i++) cards.push(this.hand[info[i]]);
+        let ladderIndex = info.slice(-1)[0]
+
+        if(this.laddersPlayed.indexOf(ladderIndex) !== -1) return false;
+        
+        if(canExtendLadder(cards, table.ladders[ladderIndex])){
+            this.captureLastAction('e', table);
+
+            table.ladders[ladderIndex] = orderLadder(table.ladders[ladderIndex].concat(cards));
+            let newHand = new Array;
+            for(i = 0; i < this.hand.length; i++){
+                if(info.slice(-1).indexOf(i) === -1) newHand.push(this.hand[i]);
+            }
+            this.hand = newHand;
+
+            this.playedCards[0] = true;
+
+            return true;
+        } else return false;
+    }
+    captureLastAction(){}
 }
 
 function startGame(online, host, playerName, numberOfPlayers, maxPoints){
@@ -123,15 +218,12 @@ function startGame(online, host, playerName, numberOfPlayers, maxPoints){
         playerList.push(new player('AI ' + i, true));
     }
 
-    currentTable = new table(playerList, maxPoints);
+    let currentTable = new table(playerList, maxPoints);
+    testTable = currentTable; // TEST (Allows to use the console for testing)
     currentTable.deal();
 
     // TEST
     const handContainer = document.querySelector('.game .hand');
     handContainer.innerHTML = '';
-    for(const crd of currentTable.activePlayer.hand){
-        let cardImage = document.createElement('img');
-        cardImage.src = `cards/${crd.suit}${crd.number}.png`;
-        handContainer.appendChild(cardImage);
-    }
+    renderHand(currentTable.activePlayer.hand);
 }
